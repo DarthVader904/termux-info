@@ -9,3 +9,18 @@
 
 Для установки:
 
+```
+wget https://raw.githubusercontent.com/DarthVader904/termux-info/main/termux_info
+chmod a+x termux_info
+mv termux_info ../usr/bin/termux_info
+```
+
+После чего вы можете ввести команду `termux_info` или добавить её в `.bashrc` при помощи `nano` или `vim`, чтобы информация отображалась при запуске консоли.
+
+## Убираем стартовый текст Termux
+
+![Motd-termux](https://media.discordapp.net/attachments/899005550086483971/1013177463217602590/IMG_20220827_230456.jpg)
+
+При каждом запуске появляется этот текст. Так как его убрать? Для этого необходимо удалить содержимое файла `motd`. Этот файл расположен по пути `../usr/etc`.
+Удалить содержимое можно при помощи `nano` или `vim`. Выберите то что вам удобнее.
+
