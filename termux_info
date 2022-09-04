@@ -1,7 +1,7 @@
 #!/usr/bin/env python2.7
 # vim: set fileencoding=utf-8 :
 #
-# Termux-info [version 0.0.1]# Оформление терменала для Termux переписанный с Archey 0.2.8
+# Termux-info [version 0.0.2]# Оформление терменала для Termux переписанный с Archey 0.2.8
 # Archey 0.2.8 https://raw.github.com/DuMOHsmol/archey/master/archey
 # Ссылка на статью https://codeby.net/threads/krasivyj-terminal-v-linux.66309/
 
@@ -14,73 +14,23 @@ from time import ctime, sleep
 
 # Отображение
 display = [
- 'user', # Display Username
- 'hostname', # Display Machine Hostname
- 'distro', # Display Distribution
- 'kernel',  # Display Kernel Version
- 'uptime',  # Display System Uptime
- 'wm',  # Display Window Manager
- 'de', # Display Desktop Environment
- 'sh', # Display Current Shell
- 'term', # Display Current Terminal
- 'packages', # Display Number of Packages Installed
- 'cpu', # Display CPU Model
- 'ram', # Display RAM Usage
- 'disk' # Display Disk Usage
- ]
+    'user', # Display Username
+    'hostname', # Display Machine Hostname
+    'distro', # Display Distribution
+    'kernel',  # Display Kernel Version
+    'uptime',  # Display System Uptime
+    'sh', # Display Current Shell
+    'term', # Display Current Terminal
+    'packages', # Display Number of Packages Installed
+    'cpu', # Display CPU Model
+    'ram', # Display RAM Usage
+    'disk' # Display Disk Usage
+    ]
 
 # Пустой массив
 result = []
 
-# опции
-if __name__=='__main__':
- parser = OptionParser(usage='%prog [-s, --screenshot]', description='Termux-info это инструмент системной информации написанный на Python', version="%prog 0.0.1")
- parser.add_option('-s', '--screenshot',
-  action='store_true', dest='screenshot', help='сделать скриншот')
- (options, args) = parser.parse_args()
-
-# Определите процессы для идентификации сред рабочего стола, оконных менеджеров, оболочек.
-de_dict = {
- 'gnome-session': 'GNOME',
- 'ksmserver': 'KDE',
- 'xfce4-session': 'Xfce'}
-           
-wm_dict = {
- 'awesome': 'Awesome',
- 'beryl': 'Beryl',
- 'blackbox': 'Blackbox',
- 'compiz': 'Compiz',
- 'dwm': 'DWM',
- 'enlightenment': 'Enlightenment',
- 'fluxbox': 'Fluxbox',
- 'fvwm': 'FVWM',
- 'i3': 'i3',
- 'icewm': 'IceWM',
- 'kwin': 'KWin',
- 'metacity': 'Metacity',
- 'musca': 'Musca',
- 'openbox': 'Openbox',
- 'pekwm': 'PekWM',
- 'ratpoison': 'ratpoison',
- 'scrotwm': 'ScrotWM',
- 'wmaker': 'Window Maker',
- 'wmfs': 'Wmfs',
- 'wmii': 'wmii',
- 'xfwm4': 'Xfwm',
- 'xmonad': 'xmonad'}
-
-sh_dict = {
- 'zsh': 'Zsh',
- 'bash': 'Bash',
- 'dash': 'Dash',
- 'fish': 'Fish',
- 'ksh': 'Ksh',
- 'csh': 'Csh',
- 'jsh': 'Jsh',
- 'tcsh': 'Tcsh'}
-
 # Определить цветовую схему
-
 clear = '\x1b[0m'
 blackB = '\x1b[0;30m'
 blackB = '\x1b[1;30m'
@@ -101,8 +51,8 @@ whiteB = '\x1b[1;37m'
 
 # Найдите запущенные процессы.
 def xmonadfix(str):
- if re.compile("xmonad").match(str): return "xmonad"
- return str
+    if re.compile("xmonad").match(str): return "xmonad"
+    return str
 p1 = Popen(['ps', '-u', getuser()], stdout=PIPE).communicate()[0].split('\n')
 processes = map(xmonadfix, [process.split()[3] for process in p1 if process])
 p1 = None
@@ -112,124 +62,97 @@ DetectDistro = Popen(['uname', '-o'], stdout=PIPE).communicate()[0].rstrip('\n')
 
 # Вывести цветной ключ с нормальным значением.
 def output(key, value):
- output = '%s%s:%s %s' % (greenB, key, clear, value)
- result.append(output)
+    output = '%s%s:%s %s' % (greenB, key, clear, value)
+    result.append(output)
 
 # RAM функционирование.
 def ram_display():
- raminfo = Popen(['free', '-m'], stdout=PIPE).communicate()[0].split('\n')
- ram = raminfo[1].split()
- used = int(ram[2]) - int(ram[5]) - int(ram[6])
- usedpercent = ((float(used) / float(ram[1])) * 100)
- if usedpercent <= 33:
-  ramdisplay = '%s%s MB %s/ %s MB' % (greenB, used, clear, ram[1])
-  output('RAM', ramdisplay)
- if usedpercent > 33 and usedpercent < 67:
-  ramdisplay = '%s%s MB %s/ %s MB' % (yellowB, used, clear, ram[1])
-  output('RAM', ramdisplay)
- if usedpercent >= 67:
-  ramdisplay = '%s%s MB %s/ %s MB' % (redB, used, clear, ram[1])
-  output('RAM', ramdisplay)
+    raminfo = Popen(['free', '-m'], stdout=PIPE).communicate()[0].split('\n')
+    ram = raminfo[1].split()
+    used = int(ram[2]) - int(ram[5]) - int(ram[6])
+    usedpercent = ((float(used) / float(ram[1])) * 100)
+    if usedpercent <= 33:
+        ramdisplay = '%s%s MB %s/ %s MB' % (greenB, used, clear, ram[1])
+        output('RAM', ramdisplay)
+    if usedpercent > 33 and usedpercent < 67:
+        ramdisplay = '%s%s MB %s/ %s MB' % (yellowB, used, clear, ram[1])
+        output('RAM', ramdisplay)
+    if usedpercent >= 67:
+        ramdisplay = '%s%s MB %s/ %s MB' % (redB, used, clear, ram[1])
+        output('RAM', ramdisplay)
   
-# Функция скриншота.
-screen = '%s' % options.screenshot
-def screenshot():
- print 'Принимая выстрел в',
- list = range(1,6)
- list.reverse()
- for x in list:
-   print '%s..' % x,
-   sys.stdout.flush()
-   sleep(1)
- print 'Скажите сыр!'
- subprocess.check_call(['scrot'])
-
 # Определение системы.
 def distro_display(): 
- arch = Popen(['uname', '-m'], stdout=PIPE).communicate()[0].rstrip('\n')
- distro = 'Android %s' % arch
- output('OS', distro)
+    system = Popen(['uname', '-m'], stdout=PIPE).communicate()[0].rstrip('\n')
+    distro = 'Android %s' % system
+    output('OS', distro)
 
 # Определение ядра.
 def kernel_display():
- kernel = Popen(['uname', '-r'], stdout=PIPE).communicate()[0].rstrip('\n')
- output ('Kernel', kernel)
+    kernel = Popen(['uname', '-r'], stdout=PIPE).communicate()[0].rstrip('\n')
+    output ('Kernel', kernel)
 
 def user_display():
- username = os.getlogin()
- output ('User', username)
+    username = os.getlogin()
+    output ('User', username)
 
 # Определение хоста
 def hostname_display():
- hostname = Popen(['uname', '-n'], stdout=PIPE).communicate()[0].rstrip('\n')
- output('Hostname', hostname)
+    hostname = Popen(['uname', '-n'], stdout=PIPE).communicate()[0].rstrip('\n')
+    output('Hostname', hostname)
 
 # Определение CPU
 def cpu_display():
- file = open('/proc/cpuinfo').readlines()
- cpuinfo = re.sub('  +', ' ', file[4].replace('model name\t: ', '').rstrip('\n'))
- output ('CPU', cpuinfo) 
+    file = open('/proc/cpuinfo').readlines()
+    cpuinfo = re.sub('  +', ' ', file[4].replace('model name\t: ', '').rstrip('\n'))
+    output ('CPU', cpuinfo) 
 
 # Определение длительности работы.
 def uptime_display():
- uptime = Popen(['uptime', '-p'], stdout=PIPE).communicate()[0].rstrip('\n').replace('minutes', 'm').replace('hours', 'h').replace('days', 'd')
- output('Uptime', uptime)
-
-# Определение среды.
-def de_display():
- for key in de_dict.keys():
-  if key in processes:
-   de = de_dict[key]
-   output ('Desktop Environment', de)
-
-# Определение оконного менеджера.
-def wm_display():
- for key in wm_dict.keys():
-  if key in processes:
-   wm = wm_dict[key]
-   output ('Window Manager', wm)
+    uptime = Popen(['uptime', '-p'], stdout=PIPE).communicate()[0].rstrip('\n').replace('minutes', 'm').replace('hours', 'h').replace('days', 'd')
+    output('Uptime', uptime)
 
 # Определение оболочки.
 def sh_display():
- sh = os.getenv("SHELL").split('/')[-1].capitalize()
- output ('Shell', sh)
+    sh = os.getenv("SHELL").split('/')[-1].capitalize()
+    output ('Shell', sh)
 
 # Определение терменала.
 def term_display():
- term = os.getenv("TERM").split('/')[-1].capitalize()
- output ('Terminal', term)
+    term = os.getenv("TERM").split('/')[-1].capitalize()
+    output ('Terminal', term)
 
 # Вычисление количества пакетов.
 def packages_display():
- p1 = Popen(['dpkg', '--get-selections'], stdout=PIPE)
- p2 = Popen(['grep', '-v', 'deinstall'], stdin=p1.stdout, stdout=PIPE)
- p3 = Popen(['wc', '-l'], stdin=p2.stdout, stdout=PIPE)
- packages = p3.communicate()[0].rstrip('\n')
- output ('Packages', packages)
+    p1 = Popen(['dpkg', '--get-selections'], stdout=PIPE)
+    p2 = Popen(['grep', '-v', 'deinstall'], stdin=p1.stdout, stdout=PIPE)
+    p3 = Popen(['wc', '-l'], stdin=p2.stdout, stdout=PIPE)
+    packages = p3.communicate()[0].rstrip('\n')
+    output ('Packages', packages)
 
 # Информация о диске
 def disk_display():
- p1 = Popen(['df', '-t', 'ext4', '-t', 'ext3', '-t', 'ext2', '-t', 'reiserfs', '-t', 'jfs', '-t', 'ntfs', '-t', 'fat32', '-t', 'btrfs', '-t', 'fuseblk'], stdout=PIPE).communicate()[0]
- total = p1.splitlines()[-1]
- used = total.split()[3]
- size = total.split()[2]
- usedpercent = float(re.sub("[A-Z]", "", used).replace(',','.')) / float(re.sub("[A-Z]", "", size).replace(',','.')) * 100
- if usedpercent <= 33:
-  fs = '%s%s %s/ %s' % (greenB, used, clear, size)  
-  output ('Disk', fs) 
- if usedpercent > 33 and usedpercent < 67:
-  fs = '%s%s %s/ %s' % (yellowB, used, clear, size)  
-  output ('Disk', fs) 
- if usedpercent >= 67:
-  fs = '%s%s %s/ %s' % (redB, used, clear, size)  
-  output ('Disk', fs) 
+    p1 = Popen(['df', '-t', 'ext4', '-t', 'ext3', '-t', 'ext2', '-t', 'reiserfs', '-t', 'jfs', '-t', 'ntfs', '-t', 'fat32', '-t', 'btrfs', '-t', 'fuseblk'], stdout=PIPE).communicate()[0]
+    total = p1.splitlines()[-1]
+    used = total.split()[3]
+    size = total.split()[2]
+    usedpercent = float(re.sub("[A-Z]", "", used).replace(',','.')) / float(re.sub("[A-Z]", "", size).replace(',','.')) * 100
+    if usedpercent <= 33:
+        fs = '%s%s %s/ %s' % (greenB, used, clear, size)  
+        output ('Disk', fs) 
+    if usedpercent > 33 and usedpercent < 67:
+        fs = '%s%s %s/ %s' % (yellowB, used, clear, size)  
+        output ('Disk', fs) 
+    if usedpercent >= 67:
+        fs = '%s%s %s/ %s' % (redB, used, clear, size)  
+        output ('Disk', fs) 
 	  
  
 # Запуск функций, найденных в массиве display.
 for x in display:
- funcname=x+'_display'
- func=locals()[funcname]
- func()
+    funcname=x+'_display'
+    func=locals()[funcname]
+    func()
 
 # Массив, содержащий значения.
 result.extend(['']*(20 - len(display)))
@@ -256,6 +179,3 @@ print """%s
 %s           .:^~!!!!~^:.            %s
 %s                                   %s
 %s""" % (whiteB, whiteB, result[0], whiteB, result[1], whiteB, result[2], whiteB, result[3], whiteB, result[4], whiteB, result[5], whiteB, result[6], whiteB, result[7], whiteB, result[8], whiteB, result[9], whiteB, result[10], whiteB, result[11], whiteB, result[12], whiteB, result[13], whiteB, result[14], whiteB, result[15], whiteB, result[16], whiteB, result[17], clear)                            
-
-if screen == 'True':
- screenshot()
