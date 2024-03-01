@@ -5,7 +5,7 @@
 
 По сути это [Archey](https://github.com/DuMOHsmol/archey), но только для Termux.
 
-![Archey-termux](https://media.discordapp.net/attachments/899005550086483971/1013171923892584468/IMG_20220827_221713.jpg)
+![Archey-termux](images/IMG_20220827_221713.jpg)
 
 Для установки:
 
@@ -19,7 +19,7 @@ mv termux_info ../usr/bin/termux_info
 
 ## Убираем стартовый текст Termux
 
-![Motd-termux](https://media.discordapp.net/attachments/899005550086483971/1013177463217602590/IMG_20220827_230456.jpg)
+![Motd-termux](images/IMG_20220827_230456.jpg)
 
 При каждом запуске появляется этот текст. Так как его убрать? Для этого необходимо удалить содержимое файла `motd`. Этот файл расположен по пути `../usr/etc`.
 Удалить содержимое можно при помощи `nano` или `vim`. Выберите то что вам удобнее.
